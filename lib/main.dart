@@ -1,5 +1,6 @@
 // import 'package:absensi_apk_flutter/pages/login.dart';
-import 'package:absensi_apk_flutter/pages/home.dart';
+import 'package:absensi_apk_flutter/pages/absen.dart';
+// import 'package:absensi_apk_flutter/pages/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,10 +16,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const SimpanPage(),
     );
   }
 }
