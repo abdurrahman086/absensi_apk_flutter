@@ -1,3 +1,4 @@
+import 'package:absensi_apk_flutter/pages/absen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -474,7 +475,12 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SimpanPage()),
+          ).then((value) => (value));
+        },
         child: const Icon(Icons.map),
       ),
     );

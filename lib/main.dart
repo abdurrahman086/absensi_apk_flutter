@@ -1,5 +1,5 @@
-// import 'package:absensi_apk_flutter/pages/login.dart';
-import 'package:absensi_apk_flutter/pages/absen.dart';
+// import 'package:absensi_apk_flutter/pages/absen.dart';
+import 'package:absensi_apk_flutter/pages/login.dart';
 // import 'package:absensi_apk_flutter/pages/home.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const SimpanPage(),
+      home: const LoginPage(),
     );
   }
 }

@@ -37,7 +37,13 @@ class _SimpanPageState extends State<SimpanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<LocationData>(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
+        backgroundColor: Colors.blue,
+        title: Text("Presensi"),
+      ),
+      body: FutureBuilder<LocationData?>(
+        future: _currenctLocation(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             final LocationData currentLocation = snapshot.data;
@@ -65,7 +71,11 @@ class _SimpanPageState extends State<SimpanPage> {
                       )
                     ],
                   ),
-                )
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                ElevatedButton(onPressed: () {}, child: Text("Simpan Presensi"))
               ],
             ));
           } else {
@@ -74,7 +84,6 @@ class _SimpanPageState extends State<SimpanPage> {
             );
           }
         },
-        future: null,
       ),
     );
   }

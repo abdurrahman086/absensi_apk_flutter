@@ -1,3 +1,4 @@
+import 'package:absensi_apk_flutter/pages/home.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatelessWidget {
@@ -95,13 +96,22 @@ class LoginPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.blue,
                     ),
-                    child: Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                    child: TextButton(
+                      onPressed: () {
+                        // Ketika tombol ditekan, navigasikan ke HomePage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        ).then((value) => (value));
+                      },
+                      child: Center(
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
