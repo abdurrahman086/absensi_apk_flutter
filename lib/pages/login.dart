@@ -1,8 +1,64 @@
+import 'dart:convert';
+
+import 'package:absensi_apk_flutter/models/login-response.dart';
 import 'package:absensi_apk_flutter/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as myHttp;
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  late Future<String> _name, _token;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _name = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString('name') ?? '';
+    });
+    _token = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString('token') ?? '';
+    });
+  }
+
+  Future login(email, password) async {
+    LoginResponseModel? loginResponseModel;
+    Map<String, String> body = {"email": email, "password": password};
+
+    var response = await myHttp
+        .post(Uri.parse('https://cek-wa.com/presensi/public'), body: body);
+    if (response.statusCode == 401) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("email atau password salah")),
+      );
+    } else {
+      loginResponseModel =
+          LoginResponseModel.fromJson(json.decode(response.body));
+      saveUser(loginResponseModel!.data.token, loginResponseModel.data.name);
+    }
+  }
+
+  Future saveUser(token, name) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setString('token', token);
+    prefs.setString('name', name);
+
+    // Ketika tombol ditekan, navigasikan ke HomePage
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    ).then((value) => (value));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +105,7 @@ class LoginPage extends StatelessWidget {
                       color: Colors.white,
                     ),
                     child: TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'example@gmail.com',
@@ -76,6 +133,8 @@ class LoginPage extends StatelessWidget {
                           color: Colors.white,
                         ),
                         child: TextField(
+                          controller: passwordController,
+                          obscureText: true,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintText: 'password',
@@ -98,11 +157,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     child: TextButton(
                       onPressed: () {
-                        // Ketika tombol ditekan, navigasikan ke HomePage
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomePage()),
-                        ).then((value) => (value));
+                        login(emailController.text, passwordController.text);
                       },
                       child: Center(
                         child: Text(
